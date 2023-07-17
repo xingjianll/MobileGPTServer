@@ -34,10 +34,12 @@ if __name__ == '__main__':
                         else:
                             conn.sendall(bytes("001\nEND4321\n", 'utf-8'))
                     elif data[0:2] == "01":
-                        a = responseGetter.request_response(data[2:], "gpt-3.5-turbo", "1", 0)
-                        print(a)
+                        print(data)
+                        a = responseGetter.request_response(data[2:], "gpt-4", "1", 0)
                         conn.send(bytes("01" + a + "\nEND4321\n", 'utf-8'))
                     elif data[0:2] == "02":
+                        print("user exit")
                         break
                     else:
+                        print("other exit")
                         break
