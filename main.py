@@ -19,8 +19,12 @@ if __name__ == '__main__':
             with conn:
                 print(f"Connected by {addr}")
                 while True:
-                    data = conn.recv(16384).decode('utf-8')
-                    print(data)
+                    try:
+                        data = conn.recv(16384).decode('utf-8')
+                        print("received data")
+                    except ConnectionResetError as e:
+                        break
+
                     if data[0:2] == "00":
                         temp = data[2:].split(chr(30))
                         print(temp)
