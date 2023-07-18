@@ -28,17 +28,18 @@ if __name__ == '__main__':
 
                             if data[0:2] == "00":
                                 temp = data[2:].split(chr(30))
-                                print("password")
                                 if temp[0] == "user0" and temp[1] == "A2345678":
-                                    print("connected")
+                                    print("logged in\n")
                                     conn.sendall(bytes("000\nEND4321\n", 'utf-8'))
+
                                 else:
+                                    print("invalid pass\n")
                                     conn.sendall(bytes("001\nEND4321\n", 'utf-8'))
 
                             elif data[0:2] == "01":
-                                print("received chat")
+                                print("chat received")
                                 a = responseGetter.request_response(data[2:], "gpt-4", "1", 0)
-                                print("replied")
+                                print("replied\n")
                                 conn.send(bytes("01" + a + "\nEND4321\n", 'utf-8'))
 
                             elif data[0:2] == "02":
@@ -50,7 +51,9 @@ if __name__ == '__main__':
                                 break
 
                         except openai.InvalidRequestError:
+                            print("Maximum reached")
                             conn.send(bytes("01" + "[You have reached the maximum conext limit, please login again.]" + "\nEND4321\n", 'utf-8'))
+
                     except:
                         break
 
