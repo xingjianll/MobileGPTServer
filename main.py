@@ -2,7 +2,7 @@ import socket
 import getresponse
 import openai
 
-HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
+HOST = "0.0.0.0"  # Standard loopback interface address (localhost)
 PORT = 4396  # Port to listen on (non-privileged ports are > 1023)
 
 
