@@ -1,6 +1,4 @@
 import socket
-import threading
-import time
 
 import getresponse
 import openai
