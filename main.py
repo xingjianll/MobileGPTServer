@@ -13,11 +13,13 @@ if __name__ == '__main__':
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT))
         s.listen()
+
         while True:
             conn, addr = s.accept()
             responseGetter = getresponse.ResponseGetter()
             responseGetter.initialize()
             responseGetter.set_apikey("")
+
             with conn:
                 print(f"Connected by {addr}")
                 while True:
@@ -43,11 +45,11 @@ if __name__ == '__main__':
                                 conn.send(bytes("01" + a + "\nEND4321\n", 'utf-8'))
 
                             elif data[0:2] == "02":
-                                print("user exit")
+                                print("user exit\n")
                                 break
 
                             else:
-                                print("other exit")
+                                print("other exit\n")
                                 break
 
                         except openai.InvalidRequestError:
