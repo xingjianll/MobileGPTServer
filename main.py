@@ -48,6 +48,7 @@ if __name__ == '__main__':
                             else:
                                 print("other exit")
                                 break
+
                         except openai.InvalidRequestError:
                             conn.send(bytes("01" + "[You have reached the maximum conext limit, please login again.]" + "\nEND4321\n", 'utf-8'))
                     except:
