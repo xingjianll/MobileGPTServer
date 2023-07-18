@@ -18,6 +18,7 @@ def set_keepalive_l(sock, after_idle_sec=3, interval_sec=5, max_fails=1):
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, interval_sec)
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, max_fails)
 
+
 def set_keepalive_o(sock, after_idle_sec=3, interval_sec=3, max_fails=5):
     """Set TCP keepalive on an open socket.
 
@@ -27,6 +28,7 @@ def set_keepalive_o(sock, after_idle_sec=3, interval_sec=3, max_fails=5):
     TCP_KEEPALIVE = 0x10
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
     sock.setsockopt(socket.IPPROTO_TCP, TCP_KEEPALIVE, interval_sec)
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -54,19 +56,24 @@ if __name__ == '__main__':
 
                                 if data[0:2] == "00":
                                     temp = data[2:].split(chr(30))
-                                    if temp[0] == "user0" and temp[1] == "A2345678":
-                                        conn.sendall(bytes("000\nEND4321\n", 'utf-8'))
+                                    if temp[0] == "user0" and temp[
+                                        1] == "A2345678":
+                                        conn.sendall(
+                                            bytes("000\nEND4321\n", 'utf-8'))
                                         print("logged in\n")
 
                                     else:
-                                        conn.sendall(bytes("001\nEND4321\n", 'utf-8'))
+                                        conn.sendall(
+                                            bytes("001\nEND4321\n", 'utf-8'))
                                         print("invalid pass\n")
 
                                 elif data[0:2] == "01":
                                     print("chat received")
-                                    a = responseGetter.request_response(data[2:], "gpt-3.5-turbo", "1", 0)
+                                    a = responseGetter.request_response(
+                                        data[2:], "gpt-3.5-turbo", "1", 0)
                                     print("replied\n")
-                                    conn.send(bytes("01" + a + "\nEND4321\n", 'utf-8'))
+                                    conn.send(bytes("01" + a + "\nEND4321\n",
+                                                    'utf-8'))
 
                                 elif data[0:2] == "02":
                                     print("user exit\n\n")
@@ -76,14 +83,17 @@ if __name__ == '__main__':
                                     print("other exit\n\n")
                                     break
                             except TimeoutError:
-                                conn.send(bytes("01" + "[Connection timeout, please login again.]" + "\nEND4321\n", 'utf-8'))
+                                conn.send(bytes(
+                                    "01" + "[Connection timeout, please login again.]" + "\nEND4321\n",
+                                    'utf-8'))
                                 print("connection timeout exit\n\n")
                                 break
 
                         except openai.InvalidRequestError:
                             print("Maximum reached")
-                            conn.send(bytes("01" + "[You have reached the maximum conext limit, please login again.]" + "\nEND4321\n", 'utf-8'))
+                            conn.send(bytes(
+                                "01" + "[You have reached the maximum conext limit, please login again.]" + "\nEND4321\n",
+                                'utf-8'))
                     except:
                         print("unknown error exit\n\n")
                         break
-
