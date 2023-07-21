@@ -1,3 +1,4 @@
+import os
 import socket
 
 import getresponse
@@ -18,11 +19,11 @@ if __name__ == '__main__':
             conn, addr = s.accept()
 
             with conn:
-                conn.settimeout(120)
+                conn.settimeout(100)
                 print(f"====Connected by {addr}======")
                 responseGetter = getresponse.ResponseGetter()
                 responseGetter.initialize()
-                responseGetter.set_apikey("")
+                responseGetter.set_apikey(os.environ["OPENAI_API_KEY"])
 
                 while True:
                     try:
@@ -59,7 +60,7 @@ if __name__ == '__main__':
                                 else:
                                     print("other exit\n\n")
                                     break
-                            except TimeoutError:
+                            except socket.timeout:
                                 conn.send(bytes("01" + "[Connection timed out due to inactivity, please login again]" + "\nEND4321\n",
                                                 'utf-8'))
                                 print("connection timeout exit\n\n")
